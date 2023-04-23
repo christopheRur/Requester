@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class RequesterController {
     private static final Logger log = LogManager.getLogger(RequesterController.class);
@@ -60,6 +62,76 @@ public class RequesterController {
         } catch (Exception e) {
             log.info("==>"+e.getCause());
             return ResponseEntity.badRequest().body(sender.getLastName()+" not found!");
+        }
+    }
+
+    /**
+     * Retrieve all senders
+     * @return
+     */
+    @GetMapping("/senders")
+    public ResponseEntity<?> getAllSenders(){
+        try{
+
+        return new ResponseEntity<>(requesterService.getAllSenders(),HttpStatus.OK);}
+        catch (Exception e){
+            log.info("==>"+e.getCause());
+            return ResponseEntity.badRequest().body("Failed to get list!");
+
+        }
+    }
+
+    /**
+     * Updates sender accordingly
+     * @param id
+     * @param sender
+     * @return
+     */
+    @PutMapping("/updateSender")
+    public ResponseEntity<?> updateSender(@RequestHeader final Long id,
+                                          @RequestBody Sender sender){
+        try{
+
+            if(id==null || sender==null){
+              return  ResponseEntity.badRequest().body("Sender or id is empty!");
+            }
+            log.error(" ===> Processing sender Updates!");
+
+          return new ResponseEntity<>(requesterService.updateSender(id,sender),HttpStatus.OK);
+
+        }catch(Exception e){
+            log.error(" ===> Failed to update sender: "+e.getMessage());
+
+            return ResponseEntity.badRequest().body("Unable to update sender!");
+        }
+
+    }
+
+    /**
+     * Delete sender once id is identified
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/delSender")
+    public ResponseEntity<?> deleteSender(@RequestHeader final Long id) {
+
+        try{
+
+            if(id==null){
+                log.info(" ===> Check id!");
+
+                return new ResponseEntity<>("id is null!",
+                        HttpStatus.BAD_REQUEST);
+            }
+
+
+            return new ResponseEntity<>(requesterService.deleteSenderById(id),HttpStatus.OK);
+
+
+        }catch(Exception e){
+            log.error(" ===> Failed to delete sender: "+e.getMessage());
+
+            return ResponseEntity.badRequest().body("Failed to delete!");
         }
     }
 

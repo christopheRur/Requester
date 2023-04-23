@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RequesterService {
 
@@ -38,6 +40,55 @@ public class RequesterService {
     public Sender findSenderByName(String name){
         return reqRep.findSenderByLastName(name).orElseThrow(
                 ()->new SenderException("The specified name "+name+" not found!"));
+    }
+
+    /**
+     * retrieve sender by id
+     * @param senderId
+     * @return
+     */
+    public Sender findSenderById(Long senderId){
+        return reqRep.findById(senderId).orElseThrow(
+                ()->new SenderException("The specified SenderId "+senderId+" not found!"));
+    }
+
+    /**
+     * Delete sender by id
+     * @param id
+     * @return
+     */
+    public String deleteSenderById(Long id){
+        Sender sender= findSenderById(id);
+         reqRep.delete(sender);
+
+         return "Sender with id "+id+" is removed";
+
+    }
+
+    /**
+     * List all senders
+     * @return List<Sender>
+     */
+    public List<Sender> getAllSenders(){
+
+        return reqRep.findAll();
+    }
+
+    /**
+     * Update sender
+     * @param id
+     * @param sender
+     * @return
+     */
+    public Sender updateSender(Long id, Sender sender){
+        Sender user = findSenderById(id);
+        user.setFirstName(sender.getFirstName())
+                .setLastName(sender.getLastName())
+                .setEmail(sender.getEmail())
+                .setMessage(sender.getMessage())
+                .setSubject(sender.getSubject());
+
+        return reqRep.save(user);
     }
 
 }
