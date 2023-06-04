@@ -124,6 +124,7 @@ public class RequesterController {
                 return new ResponseEntity<>("id is null!",
                         HttpStatus.BAD_REQUEST);
             }
+            log.info(" ===> Check id!");
 
 
             return new ResponseEntity<>(requesterService.deleteSenderById(id),HttpStatus.OK);

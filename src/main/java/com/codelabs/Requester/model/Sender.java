@@ -18,9 +18,6 @@ public class Sender implements Serializable {
     private String subject;
     private String message;
 
-
-
-
     public Long getId() {
         return id;
     }
