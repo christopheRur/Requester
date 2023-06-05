@@ -5,6 +5,7 @@ import com.codelabs.Requester.model.Sender;
 import com.codelabs.Requester.repostitory.RequesterRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,11 +58,14 @@ public class RequesterService {
      * @param id
      * @return
      */
-    public String deleteSenderById(Long id){
+    public JSONObject deleteSenderById(Long id){
         Sender sender= findSenderById(id);
          reqRep.delete(sender);
 
-         return "Sender with id "+id+" is removed";
+         JSONObject resp= new JSONObject();
+         resp.put("Success","removed sender with id "+id);
+
+         return resp;
 
     }
 

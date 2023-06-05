@@ -5,6 +5,8 @@ import com.codelabs.Requester.model.Sender;
 import com.codelabs.Requester.service.RequesterService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
+import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -70,9 +72,11 @@ class RequesterApplicationTests {
 	}
 
 	@Test
-	public void testDeleteSender(){
+	public void testDeleteSender() throws JSONException{
+		JSONObject resp= new JSONObject();
+		resp.put("Success","removed sender");
 
-		Mockito.when(reqServ.deleteSenderById(1L)).thenReturn("Deleted Sender");
+		Mockito.when(reqServ.deleteSenderById(1L)).thenReturn(resp);
 
 		ResponseEntity<?> response =controller.deleteSender(1L);
 
