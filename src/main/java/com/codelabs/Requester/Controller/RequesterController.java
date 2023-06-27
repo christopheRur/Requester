@@ -44,6 +44,25 @@ public class RequesterController {
 
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Sender sender){
+
+        try {
+
+            if (sender == null) {
+                return ResponseEntity.badRequest().body("The body is empty");
+            }
+
+            log.info("====>Initiate login ..." + sender);
+            return new ResponseEntity<>(requesterService.loginSender(sender), HttpStatus.OK);
+
+        }catch(Exception e){
+            log.error(e.getCause());
+            return ResponseEntity.badRequest().body("Error occurred! Failed to login!...");
+        }
+
+    }
+
     /**
      * Retrieve message by last name
      * @param sender

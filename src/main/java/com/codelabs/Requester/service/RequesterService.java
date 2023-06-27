@@ -1,6 +1,7 @@
 package com.codelabs.Requester.service;
 
 import com.codelabs.Requester.exception.SenderException;
+import com.codelabs.Requester.service.mailer.Mailer;
 import com.codelabs.Requester.model.Sender;
 import com.codelabs.Requester.repostitory.RequesterRepository;
 import org.apache.logging.log4j.LogManager;
@@ -9,12 +10,17 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @Service
 public class RequesterService {
 
     private static final Logger log = LogManager.getLogger(RequesterService.class);
+
+    Sender senderDetails=new Sender();
+
+    Mailer mail= new Mailer(senderDetails);
     @Autowired
     private RequesterRepository reqRep;
 
@@ -27,10 +33,23 @@ public class RequesterService {
      * @param sender
      * @return
      */
-    public Sender sendMessage(Sender sender){
+    public Sender sendMessage(Sender sender) throws MessagingException {
+
+        mail.sendMessage(sender);
+
         log.info("===> Message was sent.....");
         return reqRep.save(sender);
 
+    }
+
+    public Sender loginSender(Sender sender){
+        log.info("=Your password==> your are here"+sender.getEmail());
+
+        if(!findSenderByName(sender.getEmail()).getPassword().isEmpty())
+
+        return findSenderByName(sender.getEmail());
+
+        return sender;
     }
 
     /**

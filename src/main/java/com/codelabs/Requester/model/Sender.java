@@ -17,6 +17,8 @@ public class Sender implements Serializable {
     private String email;
     private String subject;
     private String message;
+    private String password;
+    private String recipient;
 
     public Long getId() {
         return id;
@@ -72,6 +74,24 @@ public class Sender implements Serializable {
         return this;
     }
 
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public Sender setRecipient(String recipient) {
+        this.recipient = recipient;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Sender setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Sender{" +
@@ -81,6 +101,8 @@ public class Sender implements Serializable {
                 ", email='" + email + '\'' +
                 ", subject='" + subject + '\'' +
                 ", message='" + message + '\'' +
+                ", password='" + password + '\'' +
+                ", recipient='" + recipient + '\'' +
                 '}';
     }
 }
